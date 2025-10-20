@@ -1,4 +1,8 @@
 # cloudbuild.yaml
+# Define the service account for the entire build
+serviceAccount: 'projects/gke-demo-467801/serviceAccounts/881845091575-compute@developer.gserviceaccount.com'
+
+# Define the steps of the CI/CD pipeline
 steps:
 # 1. Build the Docker image
 - name: 'gcr.io/cloud-builders/docker'
@@ -8,20 +12,13 @@ steps:
   - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}' # Tag image with Cloud Build's tag/commit SHA
   - '.'
 
-#options
-options:
-  logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
-
 # 2. Push the Docker image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
   - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
 
-# 3. Get GKE credentials (optional if using gke-deploy)
-# The gke-deploy builder often handles this internally.
-
-# 4. Deploy to GKE using gke-deploy (Recommended) or kubectl
+# 3. Deploy to GKE using gke-deploy (Recommended)
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - 'run'
@@ -31,8 +28,13 @@ options:
   # Substitute the image placeholder in the manifest with the actual image path
   - '--image=${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
 
+# Options for the entire build
+options:
+  # Specify the log bucket for build logs
+  logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
+
+# User-defined substitution variables for flexibility
 substitutions:
-  # User-defined substitution variables for flexibility
   _LOCATION: us-east4
   _AR_REPO_NAME: gke-demo
   _GKE_ZONE: us-central1
