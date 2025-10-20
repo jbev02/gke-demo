@@ -9,7 +9,8 @@ steps:
   - '.'
 
 #options
-logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
+options:
+  logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
 
 # 2. Push the Docker image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
