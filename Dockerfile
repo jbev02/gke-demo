@@ -1,3 +1,3 @@
 #Dockerfile
-FROM nginx:lastest
+FROM nginx
 EXPOSE 80
