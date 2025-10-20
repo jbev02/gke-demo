@@ -8,6 +8,9 @@ steps:
   - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}' # Tag image with Cloud Build's tag/commit SHA
   - '.'
 
+#options
+logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
+
 # 2. Push the Docker image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
