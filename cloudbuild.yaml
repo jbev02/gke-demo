@@ -1,0 +1,35 @@
+# cloudbuild.yaml
+steps:
+# 1. Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '-t'
+  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}' # Tag image with Cloud Build's tag/commit SHA
+  - '.'
+
+# 2. Push the Docker image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'push'
+  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
+
+# 3. Get GKE credentials (optional if using gke-deploy)
+# The gke-deploy builder often handles this internally.
+
+# 4. Deploy to GKE using gke-deploy (Recommended) or kubectl
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  args:
+  - 'run'
+  - '--filename=deployment.yaml'
+  - '--location=${_GKE_ZONE}'
+  - '--cluster=${_GKE_CLUSTER_NAME}'
+  # Substitute the image placeholder in the manifest with the actual image path
+  - '--image=${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
+
+substitutions:
+  # User-defined substitution variables for flexibility
+  _LOCATION: us-east4
+  _AR_REPO_NAME: gke-demo
+  _GKE_ZONE: us-central1
+  _GKE_CLUSTER_NAME: gke-demo-cluster-tbd
