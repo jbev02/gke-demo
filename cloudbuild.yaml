@@ -31,7 +31,7 @@ steps:
 # Options for the entire build
 options:
   # Specify the log bucket for build logs
-  logsBucket: 'gs://gke-demo-467801-cloudbuild-logs'
+  default_logs_bucket_behavior: 'gs://gke-demo-467801-cloudbuild-logs'
 
 # User-defined substitution variables for flexibility
 substitutions:
