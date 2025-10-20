@@ -9,14 +9,14 @@ steps:
   args:
   - 'build'
   - '-t'
-  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}' # Tag image with Cloud Build's tag/commit SHA
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/nginx-app:$TAG_NAME' # Tag image with Cloud Build's tag/commit SHA
   - '.'
 
 # 2. Push the Docker image to Artifact Registry
 - name: 'gcr.io/cloud-builders/docker'
   args:
   - 'push'
-  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
+  - '${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/nginx-app:$TAG_NAME'
 
 # 3. Deploy to GKE using gke-deploy (Recommended)
 - name: 'gcr.io/cloud-builders/gke-deploy'
@@ -26,7 +26,7 @@ steps:
   - '--location=${_GKE_ZONE}'
   - '--cluster=${_GKE_CLUSTER_NAME}'
   # Substitute the image placeholder in the manifest with the actual image path
-  - '--image=${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_AR_REPO_NAME}/nginx-app:${TAG_NAME}'
+  - '--image=${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO_NAME}/nginx-app:$TAG_NAME'
 
 # Options for the entire build
 options:
