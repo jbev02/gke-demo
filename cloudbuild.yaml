@@ -1,6 +1,6 @@
 # cloudbuild.yaml
 # Define the service account for the entire build
-serviceAccount: 'projects/gke-demo-467801/serviceAccounts/881845091575-compute@developer.gserviceaccount.com'
+serviceAccount: 'projects/gke-demo-467801/serviceAccounts/gke-demo@gke-demo-467801.iam.gserviceaccount.com'
 
 # Define the steps of the CI/CD pipeline
 steps:
