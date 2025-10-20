@@ -31,7 +31,7 @@ steps:
 # Options for the entire build
 options:
   # Specify the log bucket for build logs
-  DefaultLogsBucketBehavior: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY
 
 # User-defined substitution variables for flexibility
 substitutions:
