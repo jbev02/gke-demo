@@ -32,7 +32,7 @@ options:
   # Specify the log bucket for build logs
   logging: CLOUD_LOGGING_ONLY
 
-# User-defined substitution variables for flexibility
+# User-defined substitution variables
 substitutions:
   _LOCATION: us-east4
   _AR_REPO_NAME: gke-demo
